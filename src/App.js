@@ -1,21 +1,39 @@
-import React from 'react'
-import Home from './Home'
-import About from './About'
-import Nav from './Nav'
-import {  Route ,Switch } from 'react-router-dom'
+import React,{useEffect ,useState} from 'react';
 
-import './App.css';
 
 function App() {
+  
+  const [data,setData] = useState([])
+  useEffect(()=>{
+    fetch("http://localhost:3000/user").then((result)=>{
+     result.json().then((resp)=>{
+       
+       setData(resp);
+     })
+    })
+  },[])
+  
+ 
   return (
-    <div className="App">
-<Switch>
-      <Nav />
+    <div>    <table> 
+      <tr>
+       <td>id</td>
+        <td>Name</td>
+        <td>Email</td>
+        <td>Contact</td>
+      </tr>
+    {data.map((item , id)=>
+    
+      <tr>
+        <td>{item.id}</td>
+        <td>{item.name}</td>
+        <td>{item.email}</td>
+        <td>{item.contact}</td>
+      </tr>
       
-      <Route path='/about'><About /></Route>
-      <Route path='/' exact='true'><Home /></Route>
-      </Switch>
-
+    
+    )}
+    </table>
     </div>
   );
 }
