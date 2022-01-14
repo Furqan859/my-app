@@ -1,39 +1,23 @@
-import React,{useEffect ,useState} from 'react';
-
+import React from 'react';
+import {BrowserRouter , Routes , Route} from 'react-router-dom';
+import Home from './component/Home';
+import About from './component/About';
+import NavBar from './component/NavBar';
+import Notfound from './component/Notfound';
 
 function App() {
-  
-  const [data,setData] = useState([])
-  useEffect(()=>{
-    fetch("http://localhost:3000/user").then((result)=>{
-     result.json().then((resp)=>{
-       
-       setData(resp);
-     })
-    })
-  },[])
-  
- 
   return (
-    <div>    <table> 
-      <tr>
-       <td>id</td>
-        <td>Name</td>
-        <td>Email</td>
-        <td>Contact</td>
-      </tr>
-    {data.map((item , id)=>
-    
-      <tr>
-        <td>{item.id}</td>
-        <td>{item.name}</td>
-        <td>{item.email}</td>
-        <td>{item.contact}</td>
-      </tr>
+    <div>
+      <BrowserRouter>
+      <NavBar/>
+      <Routes>
+      <Route path="*" element={<Notfound/>}/>
+        <Route path="/" element={<Home/>}/> 
+        <Route path="/about" element={<About/>}/>
+        
+      </Routes>
       
-    
-    )}
-    </table>
+      </BrowserRouter>
     </div>
   );
 }
